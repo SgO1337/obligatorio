@@ -6,12 +6,23 @@ import org.junit.Test;
 
 public class SearchBinaryTreeImplTest {
     private SearchBinaryTreeImpl<Integer> testBinaryTree;
-    private TreeNode<Integer> testTreeNode;
+    private SearchBinaryTreeImpl<Integer> testBinaryTreeTraverse;
 
     @Before
-    public void setup() {
+    public void setup() throws NodeAlreadyExists {
         testBinaryTree = new SearchBinaryTreeImpl<Integer>();
+        testBinaryTreeTraverse = new SearchBinaryTreeImpl<Integer>();
+        testBinaryTreeTraverse.add(5);
+        testBinaryTreeTraverse.add(7);
+        testBinaryTreeTraverse.add(8);
+        testBinaryTreeTraverse.add(3);
+        testBinaryTreeTraverse.add(4);
+        testBinaryTreeTraverse.add(10);
+        testBinaryTreeTraverse.add(2);
+        testBinaryTreeTraverse.add(1);
+        testBinaryTreeTraverse.add(6);
     }
+
 
     @Test
     public void testAddCasoVacio() throws NodeAlreadyExists {
@@ -78,13 +89,16 @@ public class SearchBinaryTreeImplTest {
 
     @Test
     public void testPreOrder() {
+        Assert.assertArrayEquals(new Integer[] {5,3,2,1,4,7,6,8,10}, testBinaryTreeTraverse.preOrder().toArray());
     }
 
     @Test
     public void testPosOrder() {
+        Assert.assertArrayEquals(new Integer[] {1,2,4,3,6,10,8,7,5}, testBinaryTreeTraverse.posOrder().toArray());
     }
 
     @Test
     public void testInOrder() {
+        Assert.assertArrayEquals(new Integer[] {1,2,3,4,5,6,7,8,10}, testBinaryTreeTraverse.inOrder().toArray());
     }
 }
