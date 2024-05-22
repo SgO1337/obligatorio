@@ -1,126 +1,167 @@
-package linkedlist;
+package uy.edu.um.adt.linkedlist;
 
-import TADs.linkedlist.MyLinkedListImpl;
-import TADs.queue.EmptyQueueException;
-import TADs.stack.EmptyStackException;
-import org.junit.jupiter.api.Test;
+import uy.edu.um.adt.circularlinkedlist.MyCircularLinkedList;
+import uy.edu.um.adt.queue.EmptyQueueException;
+import uy.edu.um.adt.queue.MyQueue;
+import uy.edu.um.adt.stack.EmptyStackException;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import uy.edu.um.adt.stack.MyStack;
 
-import static org.junit.jupiter.api.Assertions.*;
+public class MyLinkedListImplTest {
+    private MyList<Integer> testList;
+    private MyQueue<Integer> testQueue;
+    private MyStack<Integer> testStack;
+    private MyCircularLinkedList<Integer> testCircularLinkedList;
 
-class MyLinkedListImplTest {
-    //El metodo add es verificado en cada uno de los tests.
+    //El metodo add es verificado como consecuencia de otros tests.
+
+    //Test particulares de lista enlazada
+
+    @Before
+    public void setup() {
+        testList = new MyLinkedListImpl<>();
+        testQueue = new MyLinkedListImpl<>();
+        testStack = new MyLinkedListImpl<>();
+        testCircularLinkedList = new MyLinkedListImpl<>();
+    }
+
+
     @Test
-    void getOneElement() {
-        MyLinkedListImpl<Integer> testList = new MyLinkedListImpl<>();
-        testList.add(7);
-        assertEquals(7,testList.get(0));
+    public void getOneElement() {
+       testList.add(7);
+       testList.add(7);
+       testList.add(8);
+       testList.add(2);
+       Assert.assertEquals(Integer.valueOf(7),testList.get(0));
     }
 
     @Test
-    void containsOneElement() {
-        MyLinkedListImpl<Integer> testList = new MyLinkedListImpl<>();
+    public void containsMyLinkedList() {
         testList.add(7);
-        assertTrue(testList.contains(7));
+        Assert.assertTrue(testList.contains(7));
     }
 
     @Test
-    void remove() {
-        MyLinkedListImpl<Integer> testList = new MyLinkedListImpl<>();
+    public void removeMyLinkedList() {
         testList.add(7);
         testList.remove(7);
-        assertFalse(testList.contains(7));
+        Assert.assertFalse(testList.contains(7));
     }
 
     @Test
-    void size() {
-        MyLinkedListImpl<Integer> testList = new MyLinkedListImpl<>();
+    public void sizeMyLinkedList() {
         testList.add(7);
-        assertEquals(1,testList.size());
+        Assert.assertEquals(1,testList.size());
+    }
+
+    //Test particulares de queue
+
+    @Test
+    public void enqueueCasoVacia() {
+        testQueue.enqueue(3);
+        Assert.assertTrue(testQueue.contains(3)); //Verifica que se haya agregado
+        Assert.assertEquals(1,testQueue.size()); //Verifica que no se hayan agregado cosas de mas
     }
 
     @Test
-    void enqueueCasoVacia() {
-        MyLinkedListImpl<Integer> testList = new MyLinkedListImpl<>();
-        testList.enqueue(3);
-        assertTrue(testList.contains(3)); //Verifica que se haya agregado
-        assertEquals(1,testList.size()); //Verifica que no se hayan agregado cosas de mas
+    public void enqueueCasoNoVacia() {
+        testQueue.enqueue(7);
+        testQueue.enqueue(3);
+        Assert.assertEquals(Integer.valueOf(3),testQueue.get(0)); //Verifica que se haya agregado al principio de la lista
+        Assert.assertEquals(2,testQueue.size()); //Verifica que no se hayan agregado cosas de mas
+    }
+
+    @Test(expected = EmptyQueueException.class)
+    public void dequeueCasoVacia() throws EmptyQueueException {
+        testQueue.dequeue();
     }
 
     @Test
-    void enqueueCasoNoVacia() {
-        MyLinkedListImpl<Integer> testList = new MyLinkedListImpl<>();
-        testList.add(7);
-        testList.enqueue(3);
-        assertEquals(3,testList.get(0)); //Verifica que se haya agregado al principio de la lista
-        assertEquals(2,testList.size()); //Verifica que no se hayan agregado cosas de mas
-    }
-
-    @Test
-    void dequeueCasoVacia() throws EmptyQueueException { //QUEDO SIN HACER PORQUE NO SE COMO VERIFICAR LA EXCEPCION
-        MyLinkedListImpl<Integer> testList = new MyLinkedListImpl<>();
-
-    }
-
-    @Test
-    void dequeueCasoNoVacia() throws EmptyQueueException {
-        MyLinkedListImpl<Integer> testList = new MyLinkedListImpl<>();
-        testList.add(7);
-        assertEquals(7,testList.dequeue());
+    public void dequeueCasoNoVacia() throws EmptyQueueException {
+        testQueue.enqueue(7);
+        Assert.assertEquals(Integer.valueOf(7),testQueue.dequeue());
     }
 
 
+    //Test particular de MyStack
+
     @Test
-    void pushCasoVacia() {
-        MyLinkedListImpl<Integer> testList = new MyLinkedListImpl<>();
-        testList.push(7);
-        assertTrue(testList.contains(7)); //Verifica que se haya agregado
-        assertEquals(1,testList.size()); //Verifica que no se hayan agregado cosas de mas
+    public void pushCasoVacia() {
+        testStack.push(7);
+        Assert.assertEquals(Integer.valueOf(7),testStack.peek()); //Verifica que se haya agregado
+        Assert.assertEquals(1,testStack.size()); //Verifica que no se hayan agregado cosas de mas
     }
 
     @Test
-    void pushCasoNoVacia() {
-        MyLinkedListImpl<Integer> testList = new MyLinkedListImpl<>();
-        testList.add(7);
-        testList.push(3);
-        assertEquals(3,testList.get(1));
+    public void pushCasoNoVacia() {
+        testStack.push(7);
+        testStack.push(3);
+        Assert.assertEquals(Integer.valueOf(3),testStack.peek());
     }
 
     @Test
-    void pushCasoValorVacio() {
-        MyLinkedListImpl<Integer> testList = new MyLinkedListImpl<>();
-        testList.push(null);
-        assertEquals(0,testList.size());
+    public void pushCasoValorVacio() {
+        testStack.push(null);
+        Assert.assertEquals(0,testStack.size());
+    }
+
+    @Test (expected = EmptyStackException.class)
+    public void popCasoVacia() throws EmptyStackException {
+        testStack.pop();
     }
 
     @Test
-    void popCasoVacia() throws EmptyStackException { //QUEDO SIN HACER PORQUE NO SE COMO VERIFICAR LA EXCEPCION
-        MyLinkedListImpl<Integer> testList = new MyLinkedListImpl<>();
-
-    }
-
-    @Test
-    void popCasoNoVacia() throws EmptyStackException {
-        MyLinkedListImpl<Integer> testList = new MyLinkedListImpl<>();
-        testList.add(3);
-        testList.add(7);
-        assertEquals(7,testList.pop());
+    public void popCasoNoVacia() throws EmptyStackException {
+        testStack.push(3);
+        testStack.push(7);
+        Assert.assertEquals(Integer.valueOf(7),testStack.pop());
     }
 
 
     @Test
-    void peek() {
-        MyLinkedListImpl<Integer> testList = new MyLinkedListImpl<>();
-        testList.add(7);
-        testList.add(3);
-        assertEquals(3,testList.peek());
+    public void peek() {
+        testStack.push(7);
+        testStack.push(3);
+        Assert.assertEquals(Integer.valueOf(3),testStack.peek());
+    }
+
+
+    //Test particular de MyCircularLinkedList
+
+    @Test
+    public void getCircularLogic() {
+        testCircularLinkedList.add(7);
+        testCircularLinkedList.add(3);
+        testCircularLinkedList.add(5);
+        Assert.assertEquals(Integer.valueOf(3),testCircularLinkedList.getCircularLogic(1));
     }
 
     @Test
-    void getCircularLogic() {
-        MyLinkedListImpl<Integer> testList = new MyLinkedListImpl<>();
-        testList.add(7);
-        testList.add(3);
-        testList.add(5);
-        assertEquals(3,testList.getCircularLogic(1));
+    public void getCircularLogicCasoPosicionMayorQueTamanio() {
+        testCircularLinkedList.add(7);
+        testCircularLinkedList.add(3);
+        testCircularLinkedList.add(5);
+        Assert.assertEquals(Integer.valueOf(5),testCircularLinkedList.getCircularLogic(5));
+    }
+
+    @Test
+    public void containsMyCircularLinkedList() {
+        testCircularLinkedList.add(7);
+        Assert.assertTrue(testCircularLinkedList.contains(7));
+    }
+
+    @Test
+    public void removeMyCircularLinkedList() {
+        testCircularLinkedList.add(7);
+        testCircularLinkedList.remove(7);
+        Assert.assertFalse(testCircularLinkedList.contains(7));
+    }
+
+    @Test
+    public void sizeMyCircularLinkedList() {
+        testCircularLinkedList.add(7);
+        Assert.assertEquals(1,testCircularLinkedList.size());
     }
 }
