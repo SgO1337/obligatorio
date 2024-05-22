@@ -17,7 +17,7 @@ public class ClosedHashImpl<K,V> implements ClosedHash<K,V> {
             resize();
         }
 
-        int index = key.hashCode() % closedHash.length;
+        int index = Math.abs(key.hashCode()) % closedHash.length;
         int originalIndex = index;
         int i = 0;
 
