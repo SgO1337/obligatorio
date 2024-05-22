@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ClosedHashImplTest extends TestCase {
+public class ClosedHashImplTest {
     private ClosedHashImpl<Integer,String> testClosedHashInteger;
     private ClosedHashImpl<String,String> testClosedHashString;
 
@@ -31,13 +31,13 @@ public class ClosedHashImplTest extends TestCase {
 
     //Estos tests son para keys Integer
     @Test
-    public void testInsertarNoColision() throws Exception {
+    public void testInsertarNoColision() throws DuplicateKey {
         testClosedHashInteger.insertar(124,"Samuel De Luque");
         Assert.assertEquals("Samuel De Luque", testClosedHashInteger.getValue(124));
     }
 
     @Test
-    public void testInsertarColision() throws Exception {
+    public void testInsertarColision() throws DuplicateKey {
         testClosedHashInteger.insertar(223,"Ruben Doblas");
         Assert.assertEquals("Ruben Doblas", testClosedHashInteger.getValue(223));
     }
@@ -47,6 +47,12 @@ public class ClosedHashImplTest extends TestCase {
         ClosedHashImpl<Integer, String> testClosedHashVacio = new ClosedHashImpl<>(10);
         testClosedHashVacio.insertar(100, "Guillermo Diaz");
         Assert.assertEquals("Guillermo Diaz", testClosedHashVacio.getValue(100));
+    }
+
+    @Test (expected = DuplicateKey.class)
+    public void testInsertarKeyDuplicada() throws DuplicateKey {
+        testClosedHashInteger.insertar(124,"Samuel De Luque");
+        testClosedHashInteger.insertar(124,"El Santi");
     }
 
     @Test
@@ -97,7 +103,7 @@ public class ClosedHashImplTest extends TestCase {
     }
 
     //Estos tests son para keys String
-    //Los comentarios al lado de algunas inserciones son para facilitar la lecutra y pasaje a ASCII de las keys.
+    //Los comentarios al lado de algunas inserciones son para facilitar la lectura y pasaje a ASCII de las keys.
     @Test
     public void testStringInsertarNoColision() throws Exception {
         testClosedHashString.insertar("d","Samuel De Luque"); //d = 100
@@ -115,6 +121,12 @@ public class ClosedHashImplTest extends TestCase {
         ClosedHashImpl<String, String> testClosedHashVacio = new ClosedHashImpl<>(10);
         testClosedHashVacio.insertar("W", "Guillermo Diaz"); //W = 87
         Assert.assertEquals("Guillermo Diaz", testClosedHashVacio.getValue("W"));
+    }
+
+    @Test (expected = DuplicateKey.class)
+    public void testStringInsertarKeyDuplicada() throws DuplicateKey {
+        testClosedHashString.insertar("W","Samuel De Luque"); //W = 87
+        testClosedHashString.insertar("W","El Santi");
     }
 
     @Test

@@ -1,16 +1,14 @@
 import uy.edu.um.adt.binarytree.BinaryTree;
 import uy.edu.um.adt.binarytree.NodeAlreadyExists;
 import uy.edu.um.adt.binarytree.SearchBinaryTreeImpl;
+import uy.edu.um.adt.closedhash.ClosedHashImpl;
+import uy.edu.um.adt.closedhash.DuplicateKey;
 
 public class Main {
-    public static void main(String[] args) throws NodeAlreadyExists {
-        SearchBinaryTreeImpl<Integer> tree = new SearchBinaryTreeImpl<Integer>();
-        try {
-            tree.add(5);
-        }
-        catch(Exception NodeAlreadyExists) {
-            System.out.println("Ese nodo ya existe!");
-        }
-        System.out.println( tree.inOrder());
+    public static void main(String[] args) throws NodeAlreadyExists, DuplicateKey {
+        ClosedHashImpl<Integer, Integer> hash = new ClosedHashImpl<>(10);
+        hash.insertar(1,1);
+        hash.insertar(1,1);
+        System.out.println(hash);
     }
 }
