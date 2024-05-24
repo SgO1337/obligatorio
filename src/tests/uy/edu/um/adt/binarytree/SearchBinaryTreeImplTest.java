@@ -116,6 +116,26 @@ public class SearchBinaryTreeImplTest {
     }
 
     @Test
+    public void getMin() throws NodeAlreadyExists {
+        testBinaryTree.add(3);
+        testBinaryTree.add(2);
+        testBinaryTree.add(1);
+        testBinaryTree.add(4);
+        testBinaryTree.add(5);
+        Assert.assertEquals(Integer.valueOf(testBinaryTree.getMin(null)), Integer.valueOf(1));
+    }
+
+    @Test
+    public void getMax() throws NodeAlreadyExists {
+        testBinaryTree.add(3);
+        testBinaryTree.add(2);
+        testBinaryTree.add(1);
+        testBinaryTree.add(4);
+        testBinaryTree.add(5);
+        Assert.assertEquals(Integer.valueOf(testBinaryTree.getMax(null)), Integer.valueOf(5));
+    }
+
+    @Test
     public void testFind() throws NodeAlreadyExists {
         testBinaryTree.add(3);
         testBinaryTree.add(2);

@@ -61,6 +61,9 @@ public class SearchBinaryTreeImpl<T extends Comparable<T>> implements
 		if(root == null) {
 			return null;
 		}
+		if(node == null) {
+			node = root;
+		}
 		while(node.getLeft() != null) {
 			node = node.getLeft();
 		}
@@ -70,6 +73,9 @@ public class SearchBinaryTreeImpl<T extends Comparable<T>> implements
 	public T getMax(TreeNode<T> node) {
 		if(root == null) {
 			return null;
+		}
+		if(node == null) {
+			node = root;
 		}
 		while(node.getRight() != null) {
 			node = node.getRight();
