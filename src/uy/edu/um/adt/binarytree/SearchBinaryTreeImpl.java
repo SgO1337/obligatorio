@@ -57,14 +57,51 @@ public class SearchBinaryTreeImpl<T extends Comparable<T>> implements
 		return bContains;
 	}
 
-	public void remove(T oElement) {
-
-		if (root != null) {
-
-			root.remove(oElement);
-
+	public T getMin(TreeNode<T> node) {
+		if(root == null) {
+			return null;
 		}
+		while(node.getLeft() != null) {
+			node = node.getLeft();
+		}
+		return node.getValue();
+	}
 
+	public T getMax(TreeNode<T> node) {
+		if(root == null) {
+			return null;
+		}
+		while(node.getRight() != null) {
+			node = node.getRight();
+		}
+		return node.getValue();
+	}
+
+	public TreeNode<T> remove(T oElement, TreeNode<T> node) {
+		if(node == null) {
+			return null;
+		}
+		if(oElement.compareTo(node.getValue()) < 0) {
+			node.setLeft(remove(oElement, node.getLeft()));
+		} else if (oElement.compareTo(node.getValue()) > 0) {
+			node.setRigth(remove(oElement, node.getRight()));
+		} else{
+			//Caso el nodo tiene un hijo (o no tiene hijos)
+			if(node.getLeft() == null) {
+				return node.getRight();
+			} else if (node.getRight() == null) {
+				return node.getLeft();
+			}
+			//Caso el nodo tiene dos hijos
+			node.setValue(getMax(node.getLeft()));
+			node.setLeft((remove(node.getValue(), node.getLeft())));
+		}
+		return node;
+	}
+
+	@Override
+	public void remove(T oElement) {
+		root = remove(oElement, root);
 	}
 	
 	public T find(T oElement) {

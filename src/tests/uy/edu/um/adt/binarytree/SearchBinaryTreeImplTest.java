@@ -50,7 +50,7 @@ public class SearchBinaryTreeImplTest {
     }
 
     @Test
-    public void testRemove() throws NodeAlreadyExists {
+    public void testRemoveCeroHijos() throws NodeAlreadyExists {
         testBinaryTree.add(3);
         testBinaryTree.add(2);
         testBinaryTree.add(1);
@@ -58,6 +58,50 @@ public class SearchBinaryTreeImplTest {
         testBinaryTree.add(5);
         testBinaryTree.remove(5);
         Assert.assertFalse(testBinaryTree.contains(5));
+    }
+
+    @Test
+    public void testRemoveUnHijo() throws NodeAlreadyExists {
+        testBinaryTree.add(3);
+        testBinaryTree.add(2);
+        testBinaryTree.add(1);
+        testBinaryTree.add(4);
+        testBinaryTree.add(5);
+        testBinaryTree.add(6);
+        testBinaryTree.remove(5);
+        Assert.assertFalse(testBinaryTree.contains(5));
+        Assert.assertTrue(testBinaryTree.contains(6));
+        Assert.assertArrayEquals(new Integer[] {1,2,3,4,6}, testBinaryTree.inOrder().toArray());
+    }
+
+    @Test
+    public void testRemoveDosHijos() throws NodeAlreadyExists {
+        testBinaryTree.add(3);
+        testBinaryTree.add(2);
+        testBinaryTree.add(1);
+        testBinaryTree.add(4);
+        testBinaryTree.add(6);
+        testBinaryTree.add(5);
+        testBinaryTree.add(7);
+        testBinaryTree.remove(6);
+        Assert.assertFalse(testBinaryTree.contains(6)); //No contiene al nodo removido
+        Assert.assertTrue(testBinaryTree.contains(5)); //Contiene a sus dos hijos
+        Assert.assertTrue(testBinaryTree.contains(7));
+        Assert.assertArrayEquals(new Integer[] {1,2,3,4,5,7}, testBinaryTree.inOrder().toArray()); //El orden se realiza sin problemas
+    }
+
+    @Test
+    public void testRemoveRoot() throws NodeAlreadyExists {
+        testBinaryTree.add(3); //Raiz
+        testBinaryTree.add(2);
+        testBinaryTree.add(1);
+        testBinaryTree.add(4);
+        testBinaryTree.add(6);
+        testBinaryTree.add(5);
+        testBinaryTree.add(7);
+        testBinaryTree.remove(3);
+        Assert.assertFalse(testBinaryTree.contains(3)); //No contiene a la raiz
+        Assert.assertArrayEquals(new Integer[] {1,2,4,5,6,7}, testBinaryTree.inOrder().toArray()); //El orden se realiza sin problemas (y contiene a todos los elemntos menos a la raiz)
     }
 
     @Test
